@@ -6,10 +6,17 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -22,9 +29,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.w3c.dom.Text;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     public static final int LOCATION_REQUEST_CODE = 1;
+    public static final String LAT_LONG_TAG = "Latitude/Longitude";
     private GoogleMap mMap;
     FusedLocationProviderClient fusedLocationProviderClient;
     Context context;
@@ -106,6 +116,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        findViewById(R.id.button_add_pin_manual).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(context, "Need to grant permission to use location.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+//                    DialogFragment dialogFragment = new AlertDialog();
+//                    dialogFragment.show(getSupportFragmentManager(), LAT_LONG_TAG);
+                    LatLonDialogFragment fragment = new LatLonDialogFragment();
+                    fragment.show(getSupportFragmentManager(), LAT_LONG_TAG);
+
+                }
+            }
+        });
+
 
     }
 
@@ -128,4 +154,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
+
+
+    public static class LatLonDialogFragment extends DialogFragment {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            LinearLayout view = new LinearLayout(getActivity());
+            view.setOrientation(LinearLayout.VERTICAL);
+            TextView latTextView = new TextView(getActivity());
+            latTextView.setText("Latitude");
+            latTextView.setTextSize(32);
+            view.addView(latTextView);
+            view.addView(new EditText(getActivity()));
+            TextView lonTextView = new TextView(getActivity());
+            lonTextView.setText("Latitude");
+            lonTextView.setTextSize(32);
+            view.addView(lonTextView);
+            view.addView(new EditText(getActivity()));
+            final Button dialogButton = new Button(getActivity());
+            dialogButton.setText("Apply");
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+            view.addView(dialogButton);
+            return view;
+        }
+
+
+    }
+
+
 }

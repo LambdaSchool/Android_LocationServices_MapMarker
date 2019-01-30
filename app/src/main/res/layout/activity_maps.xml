@@ -32,12 +32,21 @@
         map:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
+        android:id="@+id/button_add_pin_manual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:src="@android:drawable/ic_menu_preferences"
+        map:layout_constraintBottom_toTopOf="@id/button_center_map"
+        map:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
         android:id="@+id/button_add_pin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
         android:src="@android:drawable/ic_menu_add"
-        map:layout_constraintBottom_toTopOf="@id/button_center_map"
+        map:layout_constraintBottom_toTopOf="@id/button_add_pin_manual"
         map:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
