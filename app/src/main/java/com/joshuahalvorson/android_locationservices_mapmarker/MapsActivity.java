@@ -45,7 +45,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
 
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
 
@@ -69,7 +71,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             currentLat = location.getLatitude();
                             currentLon = location.getLongitude();
 
-                            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLat, currentLon)));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLat,
+                                    currentLon)));
                         }
                     });
                 }
@@ -90,9 +93,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         findViewById(R.id.new_loc_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(
-                        new LatLng(Double.parseDouble(userLat.getText().toString()),
-                                Double.parseDouble(userLon.getText().toString()))));
+                LatLng latLng = new LatLng(Double.parseDouble(userLat.getText().toString()),
+                        Double.parseDouble(userLon.getText().toString()));
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                mMap.addMarker(new MarkerOptions().position(latLng));
 
                 InputMethodManager inputManager =
                         (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
