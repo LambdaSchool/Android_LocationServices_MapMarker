@@ -12,4 +12,13 @@
         android:layout_height="match_parent"
         tools:context=".MapsActivity" />
 
+    <ImageButton
+        android:id="@+id/button_center_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@android:drawable/ic_menu_compass"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

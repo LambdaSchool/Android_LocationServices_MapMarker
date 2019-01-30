@@ -4,22 +4,27 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    public static final int LOCATION_REQUEST_CODE = 1;
     private GoogleMap mMap;
     FusedLocationProviderClient fusedLocationProviderClient;
     Context context;
@@ -35,13 +40,56 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         context = this;
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "Need to request permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            Toast.makeText(context, "Need to grant permission to use location.", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
         } else {
-            Toast.makeText(context, "Permission was Granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Location permission was granted", Toast.LENGTH_SHORT).show();
         }
+
+        findViewById(R.id.button_center_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(context, "Need to grant permission to use location.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())), 2000, new GoogleMap.CancelableCallback() {
+                                @Override
+                                public void onFinish() {
+                                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, new GoogleMap.CancelableCallback() {
+
+                                        @Override
+                                        public void onFinish() {
+
+                                        }
+
+                                        @Override
+                                        public void onCancel() {
+
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onCancel() {
+
+                                }
+                            });
+                        }
+                    });
+                }
+
+                }
+        });
+
+
+
     }
 
 
