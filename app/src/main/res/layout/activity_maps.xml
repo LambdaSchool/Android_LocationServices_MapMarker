@@ -50,12 +50,12 @@
         android:layout_marginBottom="8dp"
         android:hint="@string/longtitude_edittext_text"
         map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toStartOf="@+id/imageButton"
+        map:layout_constraintEnd_toStartOf="@+id/user_location_button"
         map:layout_constraintStart_toEndOf="@+id/latitude_edit_text" />
 
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/user_location_button"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginEnd="8dp"
@@ -76,7 +76,7 @@
         android:background="@android:color/white"
         android:scaleType="fitCenter"
         android:src="@drawable/add_pin"
-        map:layout_constraintBottom_toTopOf="@+id/imageButton"
+        map:layout_constraintBottom_toTopOf="@+id/user_location_button"
         map:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

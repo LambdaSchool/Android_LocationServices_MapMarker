@@ -1,6 +1,7 @@
 package com.example.patrickjmartin.mapmarker;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -8,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,6 +27,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+
+import static android.view.View.*;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -52,6 +57,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        findViewById(R.id.user_location_button).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(
+                            (Activity) context,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            FINE_LOCATION_REQUEST_CODE);
+                } else {
+                    getLocation(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+
+                                mLatitude = location.getLatitude();
+                                mLongtitude = location.getLongitude();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        latitudeEditText.setText(stringFormat.format(mLatitude));
+                                        longtitudeEditText.setText(stringFormat.format(mLongtitude));
+                                    }
+                                });
+                                
+                                mMap.animateCamera(CameraUpdateFactory.newLatLng(
+                                        new LatLng(mLatitude,
+                                                mLongtitude)));
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
 
 
