@@ -117,7 +117,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        findViewById(R.id.add_location_button).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final LatLng latLong = mMap.getCameraPosition().target;
 
+                mLatitude = latLong.latitude;
+                mLongtitude = latLong.longitude;
+
+                mMap.addMarker(new MarkerOptions().position(latLong));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        latitudeEditText.setText(stringFormat.format(mLatitude));
+                        longtitudeEditText.setText(stringFormat.format(mLongtitude));
+                    }
+                });
+            }
+        });
 
 
 
