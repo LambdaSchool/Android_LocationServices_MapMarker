@@ -28,8 +28,8 @@
             android:ems="10"
             android:hint="Latitude"
             android:inputType="numberSigned|numberDecimal"
-            android:selectAllOnFocus="false"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:text="0.0" />
 
         <EditText
             android:id="@+id/custom_lon"
@@ -39,8 +39,8 @@
             android:ems="10"
             android:hint="Longitude"
             android:inputType="numberSigned|numberDecimal"
-            android:selectAllOnFocus="false"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:text="0.0" />
 
         <ImageButton
             android:id="@+id/new_loc_button"
