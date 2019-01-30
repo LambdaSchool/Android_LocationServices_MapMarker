@@ -9,16 +9,16 @@ import android.widget.TextView;
 
 public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceViewHolder> {
 
-    private Context mContext;
+    private Context context;
 
     public PlaceListAdapter(Context context) {
-        this.mContext = context;
+        this.context = context;
     }
 
     @Override
     public PlaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater = LayoutInflater.from(mContext);
+        LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_place_card, parent, false);
         return new PlaceViewHolder(view);
     }

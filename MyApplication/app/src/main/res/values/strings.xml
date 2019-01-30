@@ -5,4 +5,6 @@
     <string name="location_list">Location</string>
     <string name="add_new_location">Add new location</string>
     <string name="enable_geofences">Geofences</string>
+    <string name="need_location_permission">Need Permission</string>
+    <string name="permission_granted">Permission Granted</string>
 </resources>
