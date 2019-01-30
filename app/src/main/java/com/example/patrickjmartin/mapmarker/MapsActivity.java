@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -21,12 +22,18 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     public static final int FINE_LOCATION_REQUEST_CODE = 1;
     Context context;
     FusedLocationProviderClient fusedLocationProviderClient;
     private GoogleMap mMap;
+    private Double mLongtitude, mLatitude;
+    private NumberFormat stringFormat;
+    private EditText latitudeEditText, longtitudeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +42,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         context = this;
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        stringFormat = new DecimalFormat("###.#####");
+        latitudeEditText = findViewById(R.id.latitude_edit_text);
+        longtitudeEditText = findViewById(R.id.longtitude_edit_text);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
 
 
 
@@ -92,15 +104,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        LatLng sydney = new LatLng(-34.234234, 151.345345);
+
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                return false;
+                mLatitude = marker.getPosition().latitude;
+                mLongtitude = marker.getPosition().longitude;
+
+                latitudeEditText.setText(stringFormat.format(mLatitude));
+                longtitudeEditText.setText(stringFormat.format(mLongtitude));
+
+                return true;
             }
         });
     }
+
+
+
+
 }
