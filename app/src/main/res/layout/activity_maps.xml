@@ -27,10 +27,10 @@
             android:layout_weight="1"
             android:background="@color/transparent_green"
             android:ems="10"
-            android:hint="Latitude"
+            android:hint="@string/custom_lat_edit_text_hint"
             android:inputType="numberSigned|numberDecimal"
             android:singleLine="true"
-            android:text="0.0"
+            android:text="@string/custom_lat_default_text"
             android:textSize="30sp" />
 
         <EditText
@@ -40,10 +40,10 @@
             android:layout_weight="1"
             android:background="@color/transparent_green"
             android:ems="10"
-            android:hint="Longitude"
+            android:hint="@string/custom_lon_edit_text_hint"
             android:inputType="numberSigned|numberDecimal"
             android:singleLine="true"
-            android:text="0.0"
+            android:text="@string/custom_lon_default_text"
             android:textSize="30sp" />
 
         <ImageButton
@@ -54,8 +54,8 @@
             android:adjustViewBounds="false"
             android:background="@color/transparent_green"
             android:src="@drawable/ic_location_searching_black_24dp"
-            android:text="Button"
-            android:tint="@color/colorPrimaryDark" />
+            android:tint="@color/colorPrimaryDark"
+            android:contentDescription="@string/new_location_button_desc" />
     </LinearLayout>
 
     <ImageButton
@@ -67,7 +67,8 @@
         android:src="@drawable/ic_my_location_black_50dp"
         android:tint="@color/colorAccent"
         map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toEndOf="parent" />
+        map:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/center_on_location_button_content_desc" />
 
     <ImageButton
         android:id="@+id/add_pin_at_location_button"
@@ -81,7 +82,6 @@
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintEnd_toStartOf="@+id/map"
         map:layout_constraintHorizontal_bias="0.5"
-        map:layout_constraintStart_toEndOf="@+id/map" />
-
-
+        map:layout_constraintStart_toEndOf="@+id/map"
+        android:contentDescription="@string/add_pin_at_location_button_desc" />
 </android.support.constraint.ConstraintLayout>
