@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Android_LocationServices_MapMarker</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="custom_lat_edit_text_hint">Latitude</string>
+    <string name="custom_lon_edit_text_hint">Longitude</string>
+    <string name="custom_lat_default_text">0.0</string>
+    <string name="custom_lon_default_text">0.0</string>
+    <string name="center_on_location_button_content_desc">center on location button</string>
+    <string name="add_pin_at_location_button_desc">add pin at location button</string>
+    <string name="new_location_button_desc">new location button</string>
+</resources>
