@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MapMarker</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="go_to_location_button_text">Go:</string>
+    <string name="latitude_edittext_text">Latitude</string>
+    <string name="longtitude_edittext_text">Longtitude</string>
+</resources>
