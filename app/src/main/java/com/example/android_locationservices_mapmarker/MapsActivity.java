@@ -84,10 +84,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
                 }
-
-                }
+            }
         });
 
+        findViewById(R.id.button_add_pin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(context, "Need to grant permission to use location.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            LatLng latLng = mMap.getCameraPosition().target;
+                            mMap.addMarker(new MarkerOptions().position(latLng));
+                        }
+                    });
+
+                }
+            }
+        });
 
 
     }

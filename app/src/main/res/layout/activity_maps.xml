@@ -12,6 +12,16 @@
         android:layout_height="match_parent"
         tools:context=".MapsActivity" />
 
+    <ImageView
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="25dp"
+        android:src="@drawable/ic_center_location_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <ImageButton
         android:id="@+id/button_center_map"
         android:layout_width="wrap_content"
@@ -19,6 +29,15 @@
         android:layout_margin="20dp"
         android:src="@android:drawable/ic_menu_compass"
         map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_add_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@android:drawable/ic_menu_add"
+        map:layout_constraintBottom_toTopOf="@id/button_center_map"
         map:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
