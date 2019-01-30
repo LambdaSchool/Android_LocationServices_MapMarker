@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.MailTo;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +12,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -29,6 +30,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final int ACCESS_LOCATION_REQUEST_CODE = 1;
 
     private GoogleMap mMap;
+
+    private double currentLat, currentLon;
 
     Context context;
     FusedLocationProviderClient fusedLocationProvider;
@@ -63,10 +66,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     getLocation(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-                            double lat = location.getLatitude();
-                            double lon = location.getLongitude();
+                            currentLat = location.getLatitude();
+                            currentLon = location.getLongitude();
 
-                            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lon)));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLat, currentLon)));
                         }
                     });
                 }
@@ -80,6 +83,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(latLng));
             }
         });
+
+        final EditText userLat = findViewById(R.id.custom_lat);
+        final EditText userLon = findViewById(R.id.custom_lon);
+
+        findViewById(R.id.new_loc_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(
+                        new LatLng(Double.parseDouble(userLat.getText().toString()),
+                                Double.parseDouble(userLon.getText().toString()))));
+
+                InputMethodManager inputManager =
+                        (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(
+                        getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
+
     }
 
 
@@ -114,10 +135,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 getLocation(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        double lat = location.getLatitude();
-                        double lon = location.getLongitude();
+                        currentLat = location.getLatitude();
+                        currentLon = location.getLongitude();
 
-                        mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lon)));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLat, currentLon)));
                     }
                 });
 

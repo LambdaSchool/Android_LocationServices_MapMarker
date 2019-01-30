@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="Latitude"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             android:selectAllOnFocus="false"
             android:singleLine="true" />
 
@@ -38,9 +38,19 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="Longitude"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             android:selectAllOnFocus="false"
             android:singleLine="true" />
+
+        <ImageButton
+            android:id="@+id/new_loc_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_location_searching_black_24dp"
+            android:text="Button"
+            android:tint="@color/colorPrimaryDark" />
     </LinearLayout>
 
     <ImageButton
