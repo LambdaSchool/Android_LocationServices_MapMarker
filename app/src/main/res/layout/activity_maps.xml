@@ -49,6 +49,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:hint="@string/longtitude_edittext_text"
+        android:inputType="numberDecimal|numberSigned"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toStartOf="@+id/user_location_button"
         map:layout_constraintStart_toEndOf="@+id/latitude_edit_text" />
@@ -61,6 +62,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/white"
+        android:inputType="numberDecimal|numberSigned"
         android:scaleType="fitCenter"
         android:src="@drawable/center_on_button"
         map:layout_constraintBottom_toBottomOf="parent"

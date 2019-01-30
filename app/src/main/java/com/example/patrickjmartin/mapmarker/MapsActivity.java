@@ -82,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         longtitudeEditText.setText(stringFormat.format(mLongtitude));
                                     }
                                 });
-                                
+
                                 mMap.animateCamera(CameraUpdateFactory.newLatLng(
                                         new LatLng(mLatitude,
                                                 mLongtitude)));
@@ -90,6 +90,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
                 }
+            }
+        });
+
+        findViewById(R.id.go_to_location_button).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    mLatitude = Double.valueOf(Double.parseDouble(latitudeEditText.getText().toString()));
+                } catch (Exception e) {
+                    mLatitude = null;
+                }
+
+                try {
+                    mLongtitude = Double.valueOf(Double.parseDouble(longtitudeEditText.getText().toString()));
+                } catch (Exception e) {
+                    mLatitude = null;
+                }
+
+                if (mLatitude != null && mLatitude != null) {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(mLatitude, mLongtitude)));
+                }
+
+
+
             }
         });
 
