@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static final int LOCATION_REQUEST_CODE = 1;
     public static final String LAT_LONG_TAG = "Latitude/Longitude";
-    private GoogleMap mMap;
+    public static GoogleMap mMap;
     FusedLocationProviderClient fusedLocationProviderClient;
     Context context;
 
@@ -123,11 +124,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText(context, "Need to grant permission to use location.", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-//                    DialogFragment dialogFragment = new AlertDialog();
-//                    dialogFragment.show(getSupportFragmentManager(), LAT_LONG_TAG);
                     LatLonDialogFragment fragment = new LatLonDialogFragment();
                     fragment.show(getSupportFragmentManager(), LAT_LONG_TAG);
-
                 }
             }
         });
@@ -166,18 +164,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             TextView latTextView = new TextView(getActivity());
             latTextView.setText("Latitude");
             latTextView.setTextSize(32);
+            latTextView.setInputType(InputType.TYPE_CLASS_NUMBER);
             view.addView(latTextView);
-            view.addView(new EditText(getActivity()));
+            final EditText editLat = new EditText(getActivity());
+            view.addView(editLat);
             TextView lonTextView = new TextView(getActivity());
-            lonTextView.setText("Latitude");
+            lonTextView.setText("Longitude");
             lonTextView.setTextSize(32);
+            lonTextView.setInputType(InputType.TYPE_CLASS_NUMBER);
             view.addView(lonTextView);
-            view.addView(new EditText(getActivity()));
+            final EditText editLon = new EditText(getActivity());
+            view.addView(editLon);
             final Button dialogButton = new Button(getActivity());
             dialogButton.setText("Apply");
             dialogButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Double lat = Double.valueOf(editLat.getText().toString());
+                    Double lon = Double.valueOf(editLon.getText().toString());
+                    LatLng latLng = new LatLng(lat, lon);
+                    mMap.addMarker(new MarkerOptions().position(latLng));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                     dismiss();
                 }
             });
