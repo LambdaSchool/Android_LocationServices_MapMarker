@@ -72,6 +72,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+
+        findViewById(R.id.add_pin_at_location_button).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                LatLng latLng = mMap.getCameraPosition().target;
+                mMap.addMarker(new MarkerOptions().position(latLng));
+            }
+        });
     }
 
 
@@ -95,7 +103,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode == ACCESS_LOCATION_REQUEST_CODE) {
             if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
