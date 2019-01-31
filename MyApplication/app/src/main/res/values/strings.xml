@@ -1,11 +1,4 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="title_activity_maps">Map</string>
-    <string name="settings_label">Setting</string>
-    <string name="location_list">Location</string>
-    <string name="add_new_location">Add new location</string>
-    <string name="enable_geofences">Geofences</string>
-    <string name="need_location_permission">Need Permission</string>
-    <string name="permission_granted">Permission Granted</string>
-    <string name="location_permissions">Location Permission</string>
 </resources>
