@@ -7,4 +7,5 @@
     <string name="enable_geofences">Geofences</string>
     <string name="need_location_permission">Need Permission</string>
     <string name="permission_granted">Permission Granted</string>
+    <string name="location_permissions">Location Permission</string>
 </resources>
