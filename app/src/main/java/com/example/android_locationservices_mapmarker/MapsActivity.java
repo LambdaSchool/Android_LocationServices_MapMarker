@@ -10,6 +10,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -23,13 +25,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
     Context context;
+    Button  findMyLocationButton;
+    Button  dropPinButton;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        findMyLocationButton = findViewById(R.id.button_find_my_location);
+        dropPinButton = findViewById(R.id.button_drop_pin);
         context = this;
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -51,23 +57,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
 
+        findMyLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCurrentLocation();
+            }
+        });
+    }
 
-       // LatLng sydney = new LatLng(-34, 151);
-       // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-      //  mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        getCurrentLocation();
+    private void dropPin(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(latLng).title("Your Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
     }
 
 
-
     private void getCurrentLocation() {
-        if(ContextCompat.checkSelfPermission(
+        if (ContextCompat.checkSelfPermission(
                 context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // request the permission
-            ActivityCompat.requestPermissions((Activity)context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 5);
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 5);
         } else {
             getLocation();
         }
@@ -75,8 +86,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 5) {
-            if(permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 5) {
+            if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLocation();
             }
         }
@@ -90,10 +101,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         FusedLocationProviderClient locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
-            public void onSuccess(Location location) {
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(latLng).title("Your Location"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
+            public void onSuccess(final Location location) {
+
+                dropPinButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dropPin(location);
+                    }
+                });
             }
         });
     }
