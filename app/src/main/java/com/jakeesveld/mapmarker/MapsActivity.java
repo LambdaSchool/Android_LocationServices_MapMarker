@@ -11,6 +11,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -29,12 +32,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     Context context;
     FusedLocationProviderClient fusedLocationProviderClient;
+    EditText editLat, editLong;
+    Button buttonCustomInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         context = this;
+        editLat = findViewById(R.id.edit_custom_lat);
+        editLong = findViewById(R.id.edit_custom_long);
+        buttonCustomInput = findViewById(R.id.button_custom_input);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -56,7 +64,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 LatLng position = mMap.getCameraPosition().target;
-                mMap.addMarker(new MarkerOptions().position(position));
+                mMap.addMarker(new MarkerOptions().position(position).title("Custom Marker"));
+            }
+        });
+
+        buttonCustomInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    LatLng customPosition = new LatLng(Double.parseDouble(
+                            editLat.getText().toString()), Double.parseDouble(editLong.getText().toString()));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(customPosition, 10f));
+                }catch (NumberFormatException e){
+                    Toast.makeText(context, "Invalid custom position", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -98,8 +119,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == LOCATION_REQUEST_CODE ){
-            if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLocation();
             }
         }
