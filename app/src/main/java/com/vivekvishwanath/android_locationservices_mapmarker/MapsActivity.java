@@ -10,8 +10,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -32,7 +35,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FusedLocationProviderClient fusedLocationProviderClient;
     Button buttonCenterMap;
     Button buttonAddMarker;
+    Button showButton;
     LatLng myLocation;
+    EditText latText;
+    EditText longText;
 
 
     @Override
@@ -48,6 +54,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         buttonAddMarker = findViewById(R.id.button_add_marker);
         buttonCenterMap = findViewById(R.id.button_center_map);
+        showButton = findViewById(R.id.button_custom_center);
+        latText = findViewById(R.id.lat_text);
+        longText = findViewById(R.id.long_text);
 
         buttonCenterMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +82,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+
+        showButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(latText.getText().toString())
+                        || TextUtils.isEmpty(longText.getText().toString())) {
+                    Toast.makeText(context, "Please enter a valid latitude and longitude"
+                            , Toast.LENGTH_SHORT).show();
+                } else {
+                    double latitude = Double.parseDouble(latText.getText().toString());
+                    double longitude = Double.parseDouble(longText.getText().toString());
+                    if ( (latitude >= -90 && latitude <= 90) && (longitude >= -180 && longitude <= 180)) {
+                        LatLng customLocation = new LatLng(latitude, longitude);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(customLocation, MAP_CAMERA_ZOOM));
+                        mMap.addMarker(new MarkerOptions().position(customLocation));
+                    } else {
+                        Toast.makeText(context, "Please enter a valid latitude and longitude"
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+
     }
 
     @Override
