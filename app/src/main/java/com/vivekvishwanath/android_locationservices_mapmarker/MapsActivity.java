@@ -32,6 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FusedLocationProviderClient fusedLocationProviderClient;
     Button buttonCenterMap;
     Button buttonAddMarker;
+    LatLng myLocation;
 
 
     @Override
@@ -60,6 +61,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 } else {
                     //permission already granted
                     getLocation();
+                }
+            }
+        });
+
+        buttonAddMarker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myLocation != null) {
+                    mMap.addMarker(new MarkerOptions().position(myLocation));
                 }
             }
         });
@@ -93,7 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    myLocation = new LatLng(location.getLatitude(), location.getLongitude());
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, MAP_CAMERA_ZOOM));
                 }
             }
@@ -112,10 +122,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
