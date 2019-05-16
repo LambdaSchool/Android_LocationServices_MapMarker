@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageButton
+        android:id="@+id/button_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@android:color/background_dark"
+        android:src="@android:drawable/ic_dialog_map"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:textColor="@android:color/white"
+        android:background="@android:color/background_dark"
+        android:text="Go to custom location"
+        map:layout_constraintEnd_toEndOf="@id/edit_custom_long"
+        map:layout_constraintStart_toStartOf="@id/edit_custom_lat"
+        map:layout_constraintBottom_toTopOf="@id/edit_custom_long"
+        android:id="@+id/button_custom_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:hint="Enter custom Latitude"
+        map:layout_constraintEnd_toStartOf="@id/edit_custom_long"
+        android:id="@+id/edit_custom_lat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintStart_toEndOf="@id/button_pin" />
+
+    <EditText
+        android:hint="Enter custom Longitude"
+        map:layout_constraintStart_toEndOf="@id/edit_custom_lat"
+        android:id="@+id/edit_custom_long"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toStartOf="@id/button_select" />
+
+    <ImageButton
+        android:id="@+id/button_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@android:color/background_dark"
+        android:src="@android:drawable/ic_menu_add"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
