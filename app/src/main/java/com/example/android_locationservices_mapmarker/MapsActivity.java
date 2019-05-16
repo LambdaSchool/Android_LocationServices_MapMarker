@@ -29,6 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button  findMyLocationButton;
     Button  dropPinButton;
     private GoogleMap mMap;
+    private LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +67,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void dropPin(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(latLng).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
-    }
 
 
     private void getCurrentLocation() {
@@ -103,6 +99,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onSuccess(final Location location) {
 
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
+
                 dropPinButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -111,5 +110,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
             }
         });
+    }
+    private void dropPin(Location location) {
+        mMap.addMarker(new MarkerOptions().position(latLng).title("Your Location"));
     }
 }
