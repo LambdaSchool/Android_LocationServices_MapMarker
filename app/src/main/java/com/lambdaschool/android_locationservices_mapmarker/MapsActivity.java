@@ -5,8 +5,10 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.ImageButton;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,8 +34,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mapFragment.getMapAsync(this);
         }
 
-        imageButtonCenter=findViewById(R.id.image_button_center);
-        imageButtonPin=findViewById(R.id.image_button_pin);
+        imageButtonCenter = findViewById(R.id.image_button_center);
+        imageButtonPin = findViewById(R.id.image_button_pin);
     }
 
 
@@ -53,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Seattle and move the camera
         LatLng seattle = new LatLng(47.6, -122.3);
         this.googleMap.addMarker(new MarkerOptions().position(seattle).title("Marker in Seattle"));
-        this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(seattle, 5f),1000,null);
+        this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(seattle, 5f), 1000, null);
     }
 
     @Override
@@ -63,5 +65,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //getLocation();
             }
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_UP:
+                googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+                break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                googleMap.animateCamera((CameraUpdateFactory.zoomOut()));
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
