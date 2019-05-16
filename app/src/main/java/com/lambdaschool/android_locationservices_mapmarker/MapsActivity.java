@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -48,7 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mapFragment.getMapAsync(this);
         }
 
-        ((ImageButton) findViewById(R.id.image_button_center)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.image_button_center).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -59,10 +61,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        ((ImageButton) findViewById(R.id.image_button_pin)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.image_button_pin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText editTextLatLng = findViewById(R.id.edit_text_lat_lng);
 
+                String latCommaLng = editTextLatLng.getText().toString();
+
+                LatLng target = googleMap.getCameraPosition().target;
+
+                if (!latCommaLng.equals("")) {
+                    String[] split = latCommaLng.split(",");
+                    target=new LatLng(Double.parseDouble(split[0]),Double.parseDouble(split[1]));
+                }
+
+                googleMap.addMarker(new MarkerOptions().position(target).title("Marker at " + target.toString()));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLng(target));
+
+                editTextLatLng.setText("");
+                editTextLatLng.clearFocus();
             }
         });
     }
@@ -78,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())),2000,null);
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())), 2000, null);
                 }
             }
         });
