@@ -15,16 +15,27 @@
         map:uiZoomControls="true"
         tools:context=".MapsActivity" />
 
+    <EditText
+        android:id="@+id/edit_text_lat_lng"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="latitude, longitude"
+        android:inputType="textPersonName"
+        map:layout_constraintEnd_toStartOf="@+id/image_button_pin"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/image_button_pin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:src="@android:drawable/arrow_down_float"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toStartOf="parent"
+        android:src="@android:drawable/btn_star"
+        map:layout_constraintStart_toEndOf="@id/edit_text_lat_lng"
         map:layout_constraintTop_toTopOf="@+id/map" />
 
     <ImageButton
