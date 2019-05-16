@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -15,13 +13,10 @@ import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,14 +26,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final int LOCATION_REQUEST_CODE = 33;
     private GoogleMap googleMap;
     Context context;
+    ArrayList<MarkerOptions> markerOptionsArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         context = this;
+        markerOptionsArrayList = new ArrayList<>();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -74,14 +70,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if (!latCommaLng.equals("")) {
                     String[] split = latCommaLng.split(",");
-                    target=new LatLng(Double.parseDouble(split[0]),Double.parseDouble(split[1]));
+                    target = new LatLng(Double.parseDouble(split[0]), Double.parseDouble(split[1]));
                 }
 
-                googleMap.addMarker(new MarkerOptions().position(target).title("Marker at " + target.toString()));
+                markerOptionsArrayList.add(new MarkerOptions().position(target).title("Marker at " + target.toString()));
+                googleMap.addMarker(markerOptionsArrayList.get(markerOptionsArrayList.size() - 1));
                 googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        Toast.makeText(context,marker.getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
+
+                        marker.remove();
                         return true;
                     }
                 });
@@ -128,7 +127,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-
 
 
     @Override
