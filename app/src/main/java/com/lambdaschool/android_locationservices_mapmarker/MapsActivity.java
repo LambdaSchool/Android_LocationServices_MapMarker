@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private final static int[] GOOGLE_MAP_TYPE_INT_ARRAY = new int[]{GoogleMap.MAP_TYPE_NONE, GoogleMap.MAP_TYPE_NORMAL, GoogleMap.MAP_TYPE_SATELLITE, GoogleMap.MAP_TYPE_TERRAIN, GoogleMap.MAP_TYPE_HYBRID};
     private static final int LOCATION_REQUEST_CODE = 33;
     private GoogleMap googleMap;
     Context context;
@@ -79,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
-
+                        googleMap.setMapType(GOOGLE_MAP_TYPE_INT_ARRAY[(int) (Math.random() * 4)]);
                         marker.remove();
                         return true;
                     }
